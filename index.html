@@ -46,6 +46,20 @@
     .date{font-weight:700;font-size:14px;margin-bottom:4px}
     .pill{font-size:12px;background:#f1f1ef;border-radius:999px;padding:4px 8px;color:#555}
     details summary{cursor:pointer;font-weight:700}
+
+    .deal-group{margin-top:14px}
+    .group-title{font-size:15px;font-weight:800;margin:12px 0 7px}
+    .deal-card{border:1px solid var(--line);border-radius:14px;padding:13px;margin:8px 0;background:#fff}
+    .deal-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+    .deal-store{font-weight:800;font-size:15px}
+    .deal-title{font-size:14px;margin-top:3px;line-height:1.5}
+    .deal-meta{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.55}
+    .deal-main{font-size:14px;font-weight:700;margin-top:8px;line-height:1.5}
+    .badge{font-size:11px;border-radius:999px;padding:4px 7px;background:#f1f1ef;white-space:nowrap}
+    .urgent{background:#111;color:#fff}
+    .official{font-size:12px;margin-top:8px;word-break:break-all}
+    .official a{color:#111}
+
     .footer{color:#888;font-size:12px;text-align:center;margin-top:18px;line-height:1.5}
     @media (min-width:700px){
       .wrap{padding-top:28px}
@@ -98,29 +112,30 @@
   </section>
 
   <section class="card">
-    <h2>今日の結果を保存</h2>
-    <div class="muted">ChatGPTの回答をコピーして戻り、「クリップボードから貼り付け」を押すだけ。</div>
-    <div class="row" style="margin-top:10px">
-      <button id="pasteBtn" class="secondary small">クリップボードから貼り付け</button>
-      <button id="saveBtn" class="secondary small">今日の結果として保存</button>
-    </div>
-    <textarea id="resultBox" placeholder="ここにChatGPTの結果が入ります"></textarea>
-    <div id="saveStatus" class="status"></div>
+    <h2>結果をTOKUに反映</h2>
+    <div class="muted">ChatGPTの回答を「コピー」してTOKUへ戻り、このボタンを押すだけ。</div>
+    <button id="importBtn" class="primary" style="margin-top:12px">結果を取り込む</button>
+    <div id="importStatus" class="status"></div>
+    <details style="margin-top:10px">
+      <summary class="muted">自動取込できない場合</summary>
+      <textarea id="manualBox" placeholder="ChatGPTの回答をここに貼り付け"></textarea>
+      <button id="manualImportBtn" class="secondary small" style="margin-top:8px">貼り付けた内容を取り込む</button>
+    </details>
   </section>
 
   <section class="card">
-    <h2>最新の保存結果</h2>
-    <div id="latestReport" class="report-empty">まだ保存されていません。</div>
+    <h2>今日のお得</h2>
+    <div id="dealCards" class="report-empty">まだ取り込まれていません。</div>
   </section>
 
   <details class="card">
-    <summary>過去の結果</summary>
+    <summary>過去の調査</summary>
     <div id="history"></div>
   </details>
 
   <div class="footer">
     無料版。TOKU自体は有料APIを使わず、最新情報の確認はChatGPTで行います。<br>
-    保存内容はこの端末のブラウザ内に保存されます。
+    ChatGPTの回答をコピーし、TOKUで1タップ取り込み。保存内容はこの端末のブラウザ内に保存されます。
   </div>
 </div>
 
@@ -136,6 +151,8 @@ function load(){
 function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
 
 let data = load();
+if(!Array.isArray(data.reports)) data.reports=[];
+data.reports=data.reports.filter(r=>r && typeof r==='object' && Array.isArray(r.deals));
 $('#area').value = data.area || '';
 $$('#storeChips input').forEach(cb => cb.checked = (data.stores||[]).includes(cb.value));
 const defaultConvenience=['セブン-イレブン','ファミリーマート','ローソン','ローソンストア100','ミニストップ','デイリーヤマザキ','NewDays'];
@@ -169,8 +186,7 @@ ${convenience}
 
 【対象】
 1. 無料クーポン
-・無料引換券、0円クーポン、抽選ではなく確実にもらえる無料特典を優先。
-・抽選式は当選人数や当選確率が明確で、実用性が高いものだけ別枠にする。
+・無料引換券、0円クーポン、確実にもらえる無料特典を優先。
 ・不要な商品購入が必須のものは原則除外。
 
 2. ドラッグストア割引
@@ -178,49 +194,52 @@ ${convenience}
 ・公式アプリクーポン、実用的なポイント還元・ポイント倍付け。
 ・単なる通常価格の安売りは除外。
 
-3. コンビニの「プライチ」系
-・セブン-イレブンの「プライチ」だけでなく、各社の「1個買うと1個もらえる」「対象商品購入で無料引換券」「レシートクーポン」など名称違いも対象。
-・購入対象商品と無料でもらえる商品を必ず分けて書く。
-・「購入期間」と「無料引換期間」を必ず別々に確認する。
-・レシート発券、アプリ配信、ポイントカード提示など、クーポンの受取方法も確認する。
+3. コンビニのプライチ系
+・各社の「1個買うと1個もらえる」「対象商品購入で無料引換券」「レシートクーポン」など名称違いも対象。
+・購入対象商品と無料でもらえる商品を分ける。
+・購入期間と無料引換期間を別々に確認。
+・レシート発券、アプリ配信、ポイントカード提示など受取方法も確認。
 
 【最新情報の確認ルール】
-・調査日現在も有効か、各社の公式サイト、公式キャンペーンページ、公式ニュースリリース、公式アプリ案内など一次情報で必ず確認。
-・まとめサイト、SNS投稿、古いブログだけを根拠にしない。
-・過去企画を現在開催中と誤認しない。
-・開始前の予告は「予告」と明記し、今日使える一覧には混ぜない。
-・本日が購入期間最終日または引換期間最終日なら目立つように書く。
+・調査日現在も有効か、公式サイト・公式キャンペーンページ・公式ニュースリリース・公式アプリ案内など一次情報で必ず確認。
+・まとめサイト、SNS、古いブログだけを根拠にしない。
 ・終了済みは除外。
+・開始前の予告は今日使える一覧には混ぜない。
+・本日が最終日なら目立つように書く。
+・公式確認できないものは載せない。
 
 【各項目で確認】
-・店名
-・企画名
-・購入対象商品
-・無料でもらえる商品または割引内容
-・購入期間
-・引換期間／クーポン期限
-・対象店舗・地域
-・アプリ要否
-・会員登録・ポイントカード要否
-・エントリー要否
-・上限
-・公式確認先
+店名、企画名、購入対象商品、無料でもらえる商品または割引内容、購入期間、引換期間／期限、対象地域、アプリ要否、会員登録要否、エントリー要否、上限、受取方法、公式確認先。
 
-【除外】
-・不要なものを余計に買わないと得にならない企画
-・条件が複雑すぎて実質的に使いにくい企画
-・期限切れ
-・公式確認できない情報
-・単なる広告や通常セール
+【通常表示】
+「無料クーポン」「ドラッグストア」「コンビニ・プライチ」に分けて、今日使う価値が高いものを最大10件。
+最後に「今日すぐ使うなら」を最大3件。
 
-【出力】
-最初に「今日使う価値が高いもの」を最大10件。
-「無料クーポン」「ドラッグストア」「コンビニ・プライチ」の3区分に分ける。
-コンビニ・プライチは
-「コンビニ｜買う商品 → もらえる商品｜購入期間｜引換期間｜受取方法」
-の形式で簡潔に。
-最後に「今日すぐ使うなら」を最大3件だけ抜き出す。
-有力情報がなければ、無理に埋めず「今日は有力情報なし」と書く。`;
+【TOKUアプリ取込用データ】
+回答の一番最後に、説明文とは別に必ず次の2行の間へ有効なJSON配列だけを入れてください。
+---TOKU_DATA_START---
+[
+  {
+    "category":"無料クーポン|ドラッグストア|コンビニ・プライチ",
+    "store":"店名",
+    "title":"企画名",
+    "buy_item":"購入対象商品。不要なら空文字",
+    "benefit":"無料でもらえる商品または割引内容",
+    "purchase_period":"購入期間。不要なら空文字",
+    "redeem_period":"引換期間または期限",
+    "method":"受取方法",
+    "conditions":"利用条件",
+    "app_required":"必要|不要|不明",
+    "entry_required":"必要|不要|不明",
+    "limit":"上限。なければ空文字",
+    "official_url":"公式確認先URL",
+    "urgent":false
+  }
+]
+---TOKU_DATA_END---
+
+JSONのキー名は変更しないでください。文字列内に改行を入れず、有効なJSONにしてください。
+該当情報がゼロなら [] を入れてください。`;
 }
 
 function openChatGPT(){
@@ -269,50 +288,138 @@ function openChatGPT(){
 }
 $('#checkBtn').addEventListener('click',openChatGPT);
 
-$('#pasteBtn').addEventListener('click', async()=>{
-  const s=$('#saveStatus');
+function extractTokuData(text){
+  const start='---TOKU_DATA_START---';
+  const end='---TOKU_DATA_END---';
+  const a=text.indexOf(start);
+  const b=text.indexOf(end);
+  if(a===-1 || b===-1 || b<=a) throw new Error('TOKUデータが見つかりません');
+  let raw=text.slice(a+start.length,b).trim();
+  raw=raw.replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();
+  const parsed=JSON.parse(raw);
+  if(!Array.isArray(parsed)) throw new Error('データ形式が正しくありません');
+  return parsed.map(normalizeDeal);
+}
+
+function normalizeDeal(x){
+  const s=v=>(v===null||v===undefined)?'':String(v).trim();
+  return {
+    category:s(x.category)||'その他',
+    store:s(x.store),
+    title:s(x.title),
+    buy_item:s(x.buy_item),
+    benefit:s(x.benefit),
+    purchase_period:s(x.purchase_period),
+    redeem_period:s(x.redeem_period),
+    method:s(x.method),
+    conditions:s(x.conditions),
+    app_required:s(x.app_required),
+    entry_required:s(x.entry_required),
+    limit:s(x.limit),
+    official_url:s(x.official_url),
+    urgent:Boolean(x.urgent)
+  };
+}
+
+async function importFromClipboard(){
+  const status=$('#importStatus');
   try{
-    const t=await navigator.clipboard.readText();
-    if(!t.trim()){s.textContent='クリップボードが空です。';return}
-    $('#resultBox').value=t;
-    s.textContent='貼り付けました。内容を確認して保存してください。';
+    const text=await navigator.clipboard.readText();
+    if(!text.trim()) throw new Error('クリップボードが空です');
+    doImport(text);
   }catch(e){
-    $('#resultBox').focus();
-    s.textContent='自動貼り付けが許可されない場合は、ここを長押し／右クリックして貼り付けてください。';
+    status.textContent='自動読取できませんでした。下の「自動取込できない場合」を開いて貼り付けてください。';
   }
-});
+}
+
+function doImport(text){
+  const status=$('#importStatus');
+  try{
+    const deals=extractTokuData(text);
+    const rec={at:new Date().toISOString(), deals, raw:text};
+    data.reports=[rec,...(data.reports||[])].slice(0,14);
+    save(data);
+    render();
+    status.textContent=deals.length
+      ? `${deals.length}件をTOKUに反映しました。`
+      : '今日は有力情報なしとして保存しました。';
+  }catch(e){
+    status.textContent='取込形式を読み取れませんでした。ChatGPTの回答を全文コピーしてから、もう一度試してください。';
+  }
+}
+
+$('#importBtn').addEventListener('click',importFromClipboard);
+$('#manualImportBtn').addEventListener('click',()=>doImport($('#manualBox').value));
 
 function fmtDate(d){
   try{return new Intl.DateTimeFormat('ja-JP',{year:'numeric',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(d))}
   catch(e){return d}
 }
+function esc(s){
+  return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function dealHtml(d){
+  const main=d.category==='コンビニ・プライチ' && d.buy_item
+    ? `${esc(d.buy_item)} → ${esc(d.benefit)}`
+    : esc(d.benefit || d.title);
+  const meta=[
+    d.purchase_period ? `購入：${esc(d.purchase_period)}` : '',
+    d.redeem_period ? `期限：${esc(d.redeem_period)}` : '',
+    d.method ? `受取：${esc(d.method)}` : '',
+    d.conditions ? `条件：${esc(d.conditions)}` : '',
+    d.app_required && d.app_required!=='不要' ? `アプリ：${esc(d.app_required)}` : '',
+    d.entry_required && d.entry_required!=='不要' ? `エントリー：${esc(d.entry_required)}` : '',
+    d.limit ? `上限：${esc(d.limit)}` : ''
+  ].filter(Boolean).join('<br>');
+  const link=d.official_url
+    ? `<div class="official"><a href="${esc(d.official_url)}" target="_blank" rel="noopener">公式情報を確認</a></div>`
+    : '';
+  return `<div class="deal-card">
+    <div class="deal-top">
+      <div>
+        <div class="deal-store">${esc(d.store || d.category)}</div>
+        <div class="deal-title">${esc(d.title)}</div>
+      </div>
+      ${d.urgent?'<span class="badge urgent">期限注意</span>':'<span class="badge">'+esc(d.category)+'</span>'}
+    </div>
+    <div class="deal-main">${main}</div>
+    <div class="deal-meta">${meta}</div>
+    ${link}
+  </div>`;
+}
+function renderDeals(deals){
+  const box=$('#dealCards');
+  if(!Array.isArray(deals) || deals.length===0){
+    box.className='report-empty';
+    box.textContent='今日は有力情報なし、またはまだ取り込まれていません。';
+    return;
+  }
+  box.className='';
+  const order=['無料クーポン','ドラッグストア','コンビニ・プライチ'];
+  box.innerHTML=order.map(cat=>{
+    const items=deals.filter(x=>x.category===cat);
+    if(!items.length) return '';
+    return `<div class="deal-group"><div class="group-title">${cat}</div>${items.map(dealHtml).join('')}</div>`;
+  }).join('') + deals.filter(x=>!order.includes(x.category)).map(dealHtml).join('');
+}
 function render(){
-  const latest=$('#latestReport');
   const hist=$('#history');
-  if(!data.reports.length){
-    latest.className='report-empty'; latest.textContent='まだ保存されていません。';
+  const reports=data.reports||[];
+  if(!reports.length){
+    renderDeals([]);
     hist.innerHTML='<div class="report-empty">履歴はありません。</div>';
     return;
   }
-  latest.className='report';
-  latest.textContent=data.reports[0].text;
-  hist.innerHTML=data.reports.map((r,i)=>`
-    <div class="history-item">
+  const latest=reports[0];
+  renderDeals(latest.deals||[]);
+  hist.innerHTML=reports.map((r,i)=>{
+    const count=Array.isArray(r.deals)?r.deals.length:0;
+    return `<div class="history-item">
       <div class="date">${fmtDate(r.at)} ${i===0?'<span class="pill">最新</span>':''}</div>
-      <div class="report">${escapeHtml(r.text)}</div>
-    </div>`).join('');
+      <div class="muted">${count}件</div>
+    </div>`;
+  }).join('');
 }
-function escapeHtml(s){
-  return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-$('#saveBtn').addEventListener('click',()=>{
-  const t=$('#resultBox').value.trim();
-  if(!t){$('#saveStatus').textContent='保存する結果がありません。';return}
-  data.reports.unshift({at:new Date().toISOString(),text:t});
-  data.reports=data.reports.slice(0,14);
-  save(data); render();
-  $('#saveStatus').textContent='今日の結果として保存しました。';
-});
 render();
 
 if('serviceWorker' in navigator){
