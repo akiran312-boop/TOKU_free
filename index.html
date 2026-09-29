@@ -1,379 +1,323 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111827">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="TOKU">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-180.png">
-<title>TOKU</title>
-<style>
-:root{
-  --bg:#f5f6f8;--card:#fff;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;
-  --soft:#eef2f7;--good:#047857;--warn:#b45309;--bad:#b91c1c;
-}
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Yu Gothic",Meiryo,sans-serif}
-body{min-height:100vh}
-.app{max-width:820px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) 14px calc(96px + env(safe-area-inset-bottom))}
-.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:14px}
-.brand{font-size:28px;font-weight:850}.sub{font-size:12px;color:var(--muted);margin-top:2px}
-.badge{font-size:11px;background:var(--soft);padding:6px 9px;border-radius:999px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
-.hero{padding:20px}.label{font-size:12px;color:var(--muted);font-weight:750}
-.money{font-size:34px;font-weight:850;margin-top:5px}.money small{font-size:16px;color:var(--muted)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.kpi{font-size:21px;font-weight:850}.mini,.meta{font-size:12px;color:var(--muted);line-height:1.55}
-.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:5px 2px 8px}.section-title h2{font-size:16px;margin:0}
-button,.linkbtn{border:0;background:#111827;color:#fff;border-radius:12px;padding:10px 13px;font-weight:750;cursor:pointer;min-height:42px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
-button.secondary,.linkbtn.secondary{background:var(--soft);color:#1f2937}
-button.ghost{background:#fff;color:#374151;border:1px solid var(--line)}
-button.danger{background:#fff0f0;color:var(--bad);border:1px solid #fecaca}
-input,select,textarea{width:100%;padding:11px 12px;border:1px solid #d1d5db;border-radius:11px;background:#fff;font-size:16px;font-family:inherit}
-textarea{min-height:120px;resize:vertical}
-.field{margin-bottom:12px}.field label{display:block;font-size:12px;font-weight:750;color:#4b5563;margin-bottom:6px}
-.task,.deal,.rowitem{padding:12px 0;border-top:1px solid var(--line)}.task:first-child,.deal:first-child,.rowitem:first-child{border-top:0}
-.task{display:grid;grid-template-columns:auto 1fr auto;gap:11px;align-items:center}.rank{width:30px;height:30px;border-radius:9px;background:var(--soft);display:grid;place-items:center;font-weight:850}
-.title{font-weight:780;font-size:14px}.value{font-weight:850;font-size:14px;text-align:right}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
-.rowitem,.deal-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-.tag{display:inline-block;font-size:10px;border-radius:999px;padding:4px 7px;background:var(--soft);margin-left:5px}
-.tag.good{background:#ecfdf5;color:var(--good)}.tag.warn{background:#fffbeb;color:var(--warn)}.tag.bad{background:#fef2f2;color:var(--bad)}
-.notice{padding:11px 12px;border-radius:12px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:12px;line-height:1.65;margin-bottom:12px}
-.hint,.paybox{padding:12px;border-radius:12px;background:#f3f4f6;font-size:12px;line-height:1.7;color:#374151}
-.actions{display:flex;gap:8px;flex-wrap:wrap}.empty{padding:22px;text-align:center;color:var(--muted);font-size:13px}
-.tabs{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:10}
-.tabs-inner{max-width:820px;width:100%;display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom)}
-.tab{background:transparent;color:#6b7280;padding:10px 2px 8px;min-height:58px;font-size:10px}.tab b{display:block;font-size:18px;margin-bottom:3px}.tab.active{color:#111827;font-weight:850}
-.page{display:none}.page.active{display:block}
-dialog{border:0;border-radius:20px;padding:0;width:min(92vw,560px);box-shadow:0 24px 60px rgba(0,0,0,.22)}dialog::backdrop{background:rgba(17,24,39,.48)}
-.modal{padding:18px}.modal h3{margin:0 0 14px}.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
-@media(max-width:520px){.grid2{grid-template-columns:1fr}.money{font-size:30px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111111">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="TOKU">
+  <link rel="apple-touch-icon" href="./icon-180.png">
+  <link rel="manifest" href="./manifest.json">
+  <title>TOKU</title>
+  <style>
+    :root{
+      --bg:#f5f5f3; --card:#ffffff; --text:#111; --muted:#6b6b6b;
+      --line:#e5e5e2; --accent:#111; --soft:#efefec; --good:#166534;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Yu Gothic",sans-serif}
+    .wrap{max-width:760px;margin:0 auto;padding:18px 14px 36px}
+    header{padding:8px 2px 14px}
+    .brand{font-size:31px;font-weight:800;letter-spacing:-1px}
+    .sub{color:var(--muted);margin-top:3px;font-size:14px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:0 2px 12px rgba(0,0,0,.035)}
+    .hero{padding:18px}
+    h2{font-size:18px;margin:0 0 10px}
+    .lead{font-size:15px;line-height:1.7;color:#333;margin:0 0 14px}
+    button,.btn{appearance:none;border:0;border-radius:14px;padding:14px 16px;font-size:16px;font-weight:750;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+    .primary{width:100%;background:var(--accent);color:#fff}
+    .secondary{background:var(--soft);color:#111}
+    .small{padding:10px 12px;font-size:14px}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip input{display:none}
+    .chip span{display:inline-block;padding:9px 11px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:14px}
+    .chip input:checked+span{background:#111;color:#fff;border-color:#111}
+    label.block{display:block;font-size:13px;color:var(--muted);margin:12px 0 6px}
+    input[type=text],textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;background:#fff;color:#111}
+    textarea{min-height:190px;resize:vertical;line-height:1.55}
+    .status{font-size:13px;color:var(--good);margin-top:9px;min-height:18px}
+    .muted{color:var(--muted);font-size:13px;line-height:1.5}
+    .report{white-space:pre-wrap;line-height:1.65;font-size:14px}
+    .report-empty{color:var(--muted);font-size:14px;padding:12px 0}
+    .history-item{padding:12px 0;border-top:1px solid var(--line)}
+    .history-item:first-child{border-top:0}
+    .date{font-weight:700;font-size:14px;margin-bottom:4px}
+    .pill{font-size:12px;background:#f1f1ef;border-radius:999px;padding:4px 8px;color:#555}
+    details summary{cursor:pointer;font-weight:700}
+    .footer{color:#888;font-size:12px;text-align:center;margin-top:18px;line-height:1.5}
+    @media (min-width:700px){
+      .wrap{padding-top:28px}
+      .hero{padding:22px}
+    }
+  </style>
 </head>
 <body>
-<div class="app">
-  <div class="top">
-    <div><div class="brand">TOKU</div><div class="sub">得することだけ、シンプルに。</div></div>
-    <div class="badge">無料版</div>
+<div class="wrap">
+  <header>
+    <div class="brand">TOKU</div>
+    <div class="sub">無料クーポン ＋ ドラッグストア割引 ＋ コンビニのプライチ</div>
+  </header>
+
+  <section class="card hero">
+    <h2>今日チェック</h2>
+    <p class="lead">今日、本当に使えるものだけをみれいに調べてもらう。無料クーポン、ドラッグストア割引、各コンビニのプライチを公式情報で確認。</p>
+    <button id="checkBtn" class="primary">今日のお得・プライチを調べる</button>
+    <div id="checkStatus" class="status"></div>
+  </section>
+
+  <section class="card">
+    <h2>条件</h2>
+    <label class="block" for="area">地域（任意）</label>
+    <input id="area" type="text" placeholder="例：広島県、尾道市">
+    <label class="block">よく使うドラッグストア（任意）</label>
+    <div class="chips" id="storeChips">
+      <label class="chip"><input type="checkbox" value="マツキヨココカラ"><span>マツキヨココカラ</span></label>
+      <label class="chip"><input type="checkbox" value="ウエルシア"><span>ウエルシア</span></label>
+      <label class="chip"><input type="checkbox" value="スギ薬局"><span>スギ薬局</span></label>
+      <label class="chip"><input type="checkbox" value="ツルハ"><span>ツルハ</span></label>
+      <label class="chip"><input type="checkbox" value="サンドラッグ"><span>サンドラッグ</span></label>
+      <label class="chip"><input type="checkbox" value="コスモス薬品"><span>コスモス</span></label>
+      <label class="chip"><input type="checkbox" value="ザグザグ"><span>ザグザグ</span></label>
+      <label class="chip"><input type="checkbox" value="その他"><span>その他</span></label>
+    </div>
+    <div class="muted" style="margin-top:10px">何も選ばなければ全国の主要ドラッグストアを対象にする。</div>
+
+    <label class="block">チェックするコンビニ</label>
+    <div class="chips" id="convenienceChips">
+      <label class="chip"><input type="checkbox" value="セブン-イレブン" checked><span>セブン</span></label>
+      <label class="chip"><input type="checkbox" value="ファミリーマート" checked><span>ファミマ</span></label>
+      <label class="chip"><input type="checkbox" value="ローソン" checked><span>ローソン</span></label>
+      <label class="chip"><input type="checkbox" value="ローソンストア100" checked><span>ローソン100</span></label>
+      <label class="chip"><input type="checkbox" value="ミニストップ" checked><span>ミニストップ</span></label>
+      <label class="chip"><input type="checkbox" value="デイリーヤマザキ" checked><span>デイリー</span></label>
+      <label class="chip"><input type="checkbox" value="NewDays" checked><span>NewDays</span></label>
+    </div>
+    <div class="muted" style="margin-top:10px">「1個買うと1個もらえる」「レシート無料引換券」など名称が違う企画もまとめて確認する。</div>
+  </section>
+
+  <section class="card">
+    <h2>今日の結果を保存</h2>
+    <div class="muted">ChatGPTの回答をコピーして戻り、「クリップボードから貼り付け」を押すだけ。</div>
+    <div class="row" style="margin-top:10px">
+      <button id="pasteBtn" class="secondary small">クリップボードから貼り付け</button>
+      <button id="saveBtn" class="secondary small">今日の結果として保存</button>
+    </div>
+    <textarea id="resultBox" placeholder="ここにChatGPTの結果が入ります"></textarea>
+    <div id="saveStatus" class="status"></div>
+  </section>
+
+  <section class="card">
+    <h2>最新の保存結果</h2>
+    <div id="latestReport" class="report-empty">まだ保存されていません。</div>
+  </section>
+
+  <details class="card">
+    <summary>過去の結果</summary>
+    <div id="history"></div>
+  </details>
+
+  <div class="footer">
+    無料版。TOKU自体は有料APIを使わず、最新情報の確認はChatGPTで行います。<br>
+    保存内容はこの端末のブラウザ内に保存されます。
   </div>
-
-  <section class="page active" id="home">
-    <div class="card hero">
-      <div class="label">今年、実際に得した額</div>
-      <div class="money" id="yearTotal">0 <small>円</small></div>
-      <div class="grid2" style="margin-top:12px">
-        <div><div class="mini">今月</div><div class="kpi" id="monthTotal">0円</div></div>
-        <div><div class="mini">まだ取れる得</div><div class="kpi" id="openTotal">0円</div></div>
-      </div>
-    </div>
-
-    <div class="section-title"><h2>今日やると得</h2><button class="secondary" id="addTaskBtn">＋追加</button></div>
-    <div class="card" id="taskList"></div>
-
-    <div class="section-title"><h2>期限が近いお得情報</h2><button class="secondary" data-go="deals">見る</button></div>
-    <div class="card" id="dealMini"></div>
-  </section>
-
-  <section class="page" id="deals">
-    <div class="card">
-      <div class="label">みれいに最新情報を聞く</div>
-      <div class="hint" style="margin-top:10px">
-        下のボタンを押すだけ。検索文を自動コピーしてChatGPTを開きます。
-      </div>
-      <button id="todayDealBtn" style="width:100%;margin-top:10px;font-size:16px;padding:14px 16px">
-        今日のお得情報を調べる
-      </button>
-      <div id="todayDealStatus" class="meta" style="margin-top:8px"></div>
-      <div class="actions" style="margin-top:10px">
-        <button class="secondary" id="addDealBtn">結果をTOKUに追加</button>
-      </div>
-    </div>
-
-    <div class="section-title"><h2>お得情報</h2></div>
-    <div class="card" id="dealList"></div>
-  </section>
-
-  <section class="page" id="buy">
-    <div class="card">
-      <div class="label">買う前チェック</div>
-      <div class="field" style="margin-top:12px"><label>商品名</label><input id="buyName" placeholder="例：ティップランロッド"></div>
-      <div class="grid2">
-        <div class="field"><label>今見ている価格</label><input id="buyPrice" type="number" min="0" placeholder="19800"></div>
-        <div class="field"><label>購入先</label><select id="buyStore"><option value="amazon">Amazon</option><option value="other">Amazon以外</option></select></div>
-      </div>
-      <div class="field"><label>最優先条件</label><input id="buyPriority" placeholder="例：折れにくさ、耐久性"></div>
-      <div class="paybox" id="payBox">基本支払い：<b>Amazonカード</b></div>
-      <div class="actions" style="margin-top:10px">
-        <button id="saveBuyBtn">購入候補に保存</button>
-        <a class="linkbtn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener">みれいに相談</a>
-      </div>
-    </div>
-
-    <div class="section-title"><h2>購入候補</h2></div>
-    <div class="card" id="buyList"></div>
-  </section>
-
-  <section class="page" id="records">
-    <div class="section-title"><h2>得した記録</h2><button class="secondary" id="addRecordBtn">＋記録</button></div>
-    <div class="card" id="recordList"></div>
-  </section>
-
-  <section class="page" id="settings">
-    <div class="card">
-      <div class="label">支払いルール</div>
-      <div class="rowitem"><div><b>Amazon</b><div class="mini">基本の支払い</div></div><b>Amazonカード</b></div>
-      <div class="rowitem"><div><b>Amazon以外</b><div class="mini">基本の支払い</div></div><b>Recruit Card</b></div>
-    </div>
-    <div class="card">
-      <div class="label">バックアップ</div>
-      <div class="hint">入力内容はこの端末のブラウザに保存されます。iPhone変更前などにバックアップしてください。</div>
-      <div class="actions" style="margin-top:10px">
-        <button id="exportBtn">バックアップを書き出す</button>
-        <button class="secondary" id="importBtn">バックアップを戻す</button>
-      </div>
-    </div>
-    <div class="card"><button class="danger" id="resetBtn">全データを初期化</button></div>
-  </section>
 </div>
 
-<nav class="tabs"><div class="tabs-inner">
-  <button class="tab active" data-page="home"><b>⌂</b>ホーム</button>
-  <button class="tab" data-page="deals"><b>★</b>お得</button>
-  <button class="tab" data-page="buy"><b>🛒</b>買う</button>
-  <button class="tab" data-page="records"><b>¥</b>記録</button>
-  <button class="tab" data-page="settings"><b>⚙</b>設定</button>
-</div></nav>
-
-<dialog id="taskDialog"><form class="modal" id="taskForm">
-  <h3 id="taskDialogTitle">追加</h3>
-  <div class="field"><label>内容</label><input id="taskName" required></div>
-  <div class="field"><label>金額</label><input id="taskValue" type="number" min="0" placeholder="0"></div>
-  <div class="field" id="taskDeadlineWrap"><label>期限</label><input id="taskDeadline" type="date"></div>
-  <div class="modal-actions"><button type="button" class="ghost" id="taskCancel">キャンセル</button><button type="submit">保存</button></div>
-</form></dialog>
-
-<dialog id="dealDialog"><form class="modal" id="dealForm">
-  <h3>お得情報を追加</h3>
-  <div class="field"><label>内容</label><input id="dealTitle" required placeholder="例：コンビニ無料券"></div>
-  <div class="field"><label>提供元</label><input id="dealProvider" placeholder="例：ファミリーマート"></div>
-  <div class="grid2">
-    <div class="field"><label>お得額</label><input id="dealValue" type="number" min="0" placeholder="180"></div>
-    <div class="field"><label>期限</label><input id="dealEnd" type="date"></div>
-  </div>
-  <div class="field"><label>条件・メモ</label><input id="dealConditions" placeholder="例：アプリ提示"></div>
-  <div class="field"><label>みれいが確認した日</label><input id="dealVerified" type="date"></div>
-  <div class="modal-actions"><button type="button" class="ghost" id="dealCancel">キャンセル</button><button type="submit">保存</button></div>
-</form></dialog>
-
-<dialog id="importDialog"><form class="modal" id="importForm">
-  <h3>バックアップを戻す</h3>
-  <div class="field"><label>バックアップJSON</label><textarea id="importText"></textarea></div>
-  <div class="modal-actions"><button type="button" class="ghost" id="importCancel">キャンセル</button><button type="submit">復元</button></div>
-</form></dialog>
-
 <script>
-(() => {
-'use strict';
-const KEY='TOKU_FREE_IPHONE_V1';
-const today=()=>new Date().toISOString().slice(0,10);
-const ym=()=>today().slice(0,7);
-const yen=n=>new Intl.NumberFormat('ja-JP').format(Math.max(0,Number(n)||0))+'円';
-const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
-const fresh=()=>({tasks:[],records:[],deals:[],buys:[],created_at:today()});
-let state;
-try{state=JSON.parse(localStorage.getItem(KEY))||fresh()}catch(e){state=fresh()}
-function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
-function dayDiff(s){if(!s)return 9999;const a=new Date(today()+'T00:00:00Z'),b=new Date(s+'T00:00:00Z');return Math.round((b-a)/86400000)}
-function deadlineText(s){if(!s)return'期限なし';const d=dayDiff(s);if(d<0)return Math.abs(d)+'日超過';if(d===0)return'今日まで';if(d===1)return'明日まで';return'あと'+d+'日'}
-function freshLabel(d){
-  if(d.end_date && today()>d.end_date)return ['期限切れ','bad'];
-  if(!d.verified_at)return ['未確認','warn'];
-  const age=Math.abs(dayDiff(d.verified_at));
-  if(age<=2)return ['最新確認済','good'];
-  return ['再確認','warn'];
+const KEY = 'TOKU_LITE_V2';
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+function load(){
+  try{return JSON.parse(localStorage.getItem(KEY)) || {area:'',stores:[],convenience:['セブン-イレブン','ファミリーマート','ローソン','ローソンストア100','ミニストップ','デイリーヤマザキ','NewDays'],reports:[]}}
+  catch(e){return {area:'',stores:[],convenience:['セブン-イレブン','ファミリーマート','ローソン','ローソンストア100','ミニストップ','デイリーヤマザキ','NewDays'],reports:[]}}
 }
-function go(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.page===id));
+function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+
+let data = load();
+$('#area').value = data.area || '';
+$$('#storeChips input').forEach(cb => cb.checked = (data.stores||[]).includes(cb.value));
+const defaultConvenience=['セブン-イレブン','ファミリーマート','ローソン','ローソンストア100','ミニストップ','デイリーヤマザキ','NewDays'];
+if(!Array.isArray(data.convenience)) data.convenience=defaultConvenience;
+$$('#convenienceChips input').forEach(cb => cb.checked = data.convenience.includes(cb.value));
+
+function persistPrefs(){
+  data.area = $('#area').value.trim();
+  data.stores = $$('#storeChips input:checked').map(x=>x.value);
+  data.convenience = $$('#convenienceChips input:checked').map(x=>x.value);
+  save(data);
 }
-document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>go(t.dataset.page)));
-document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+$('#area').addEventListener('change',persistPrefs);
+$$('#storeChips input').forEach(x=>x.addEventListener('change',persistPrefs));
+$$('#convenienceChips input').forEach(x=>x.addEventListener('change',persistPrefs));
 
-let taskMode='task';
-const taskDialog=document.getElementById('taskDialog');
-function openTask(mode){
-  taskMode=mode;
-  taskDialogTitle.textContent=mode==='record'?'得した記録を追加':'今日やると得を追加';
-  taskDeadlineWrap.style.display=mode==='record'?'none':'block';
-  taskName.value='';taskValue.value='';taskDeadline.value='';
-  taskDialog.showModal();
+function buildPrompt(){
+  persistPrefs();
+  const area = data.area ? `地域は「${data.area}」を優先。全国共通情報も対象。` : '全国で使えるものを対象。';
+  const stores = data.stores.length
+    ? `特に優先して確認するドラッグストア：${data.stores.join('、')}。`
+    : '全国の主要ドラッグストアを横断して確認。';
+  const convenience = data.convenience.length
+    ? `確認するコンビニ：${data.convenience.join('、')}。`
+    : '主要コンビニを横断して確認。';
+
+  return `今日現在、日本国内で実際に使える次の3種類だけを、最新情報で調べて。
+${area}
+${stores}
+${convenience}
+
+【対象】
+1. 無料クーポン
+・無料引換券、0円クーポン、抽選ではなく確実にもらえる無料特典を優先。
+・抽選式は当選人数や当選確率が明確で、実用性が高いものだけ別枠にする。
+・不要な商品購入が必須のものは原則除外。
+
+2. ドラッグストア割引
+・店全体または対象カテゴリーの○％OFF。
+・公式アプリクーポン、実用的なポイント還元・ポイント倍付け。
+・単なる通常価格の安売りは除外。
+
+3. コンビニの「プライチ」系
+・セブン-イレブンの「プライチ」だけでなく、各社の「1個買うと1個もらえる」「対象商品購入で無料引換券」「レシートクーポン」など名称違いも対象。
+・購入対象商品と無料でもらえる商品を必ず分けて書く。
+・「購入期間」と「無料引換期間」を必ず別々に確認する。
+・レシート発券、アプリ配信、ポイントカード提示など、クーポンの受取方法も確認する。
+
+【最新情報の確認ルール】
+・調査日現在も有効か、各社の公式サイト、公式キャンペーンページ、公式ニュースリリース、公式アプリ案内など一次情報で必ず確認。
+・まとめサイト、SNS投稿、古いブログだけを根拠にしない。
+・過去企画を現在開催中と誤認しない。
+・開始前の予告は「予告」と明記し、今日使える一覧には混ぜない。
+・本日が購入期間最終日または引換期間最終日なら目立つように書く。
+・終了済みは除外。
+
+【各項目で確認】
+・店名
+・企画名
+・購入対象商品
+・無料でもらえる商品または割引内容
+・購入期間
+・引換期間／クーポン期限
+・対象店舗・地域
+・アプリ要否
+・会員登録・ポイントカード要否
+・エントリー要否
+・上限
+・公式確認先
+
+【除外】
+・不要なものを余計に買わないと得にならない企画
+・条件が複雑すぎて実質的に使いにくい企画
+・期限切れ
+・公式確認できない情報
+・単なる広告や通常セール
+
+【出力】
+最初に「今日使う価値が高いもの」を最大10件。
+「無料クーポン」「ドラッグストア」「コンビニ・プライチ」の3区分に分ける。
+コンビニ・プライチは
+「コンビニ｜買う商品 → もらえる商品｜購入期間｜引換期間｜受取方法」
+の形式で簡潔に。
+最後に「今日すぐ使うなら」を最大3件だけ抜き出す。
+有力情報がなければ、無理に埋めず「今日は有力情報なし」と書く。`;
 }
-addTaskBtn.addEventListener('click',()=>openTask('task'));
-addRecordBtn.addEventListener('click',()=>openTask('record'));
-taskCancel.addEventListener('click',()=>taskDialog.close());
-taskForm.addEventListener('submit',e=>{
-  e.preventDefault();
-  const name=taskName.value.trim();if(!name)return;
-  const x={id:Date.now(),name,value:Number(taskValue.value)||0,created:today()};
-  if(taskMode==='task'){x.deadline=taskDeadline.value;state.tasks.push(x)}
-  else{x.done_date=today();state.records.unshift(x)}
-  taskDialog.close();save();
-});
-window.finishTask=id=>{
-  const i=state.tasks.findIndex(x=>x.id===id);if(i<0)return;
-  const [x]=state.tasks.splice(i,1);
-  state.records.unshift({id:Date.now(),name:x.name,value:x.value||0,done_date:today(),created:x.created});
-  save();
-};
 
-const dealDialog=document.getElementById('dealDialog');
-addDealBtn.addEventListener('click',()=>{
-  dealTitle.value='';dealProvider.value='';dealValue.value='';dealEnd.value='';dealConditions.value='';dealVerified.value=today();
-  dealDialog.showModal();
-});
-dealCancel.addEventListener('click',()=>dealDialog.close());
-dealForm.addEventListener('submit',e=>{
-  e.preventDefault();
-  const title=dealTitle.value.trim();if(!title)return;
-  state.deals.unshift({
-    id:Date.now(),title,provider:dealProvider.value.trim(),value:Number(dealValue.value)||0,
-    end_date:dealEnd.value,conditions:dealConditions.value.trim(),verified_at:dealVerified.value||today()
-  });
-  dealDialog.close();save();
-});
-window.removeDeal=id=>{state.deals=state.deals.filter(x=>x.id!==id);save()};
-
-buyStore.addEventListener('change',()=>{payBox.innerHTML=buyStore.value==='amazon'?'基本支払い：<b>Amazonカード</b>':'基本支払い：<b>Recruit Card</b>'});
-saveBuyBtn.addEventListener('click',()=>{
-  const name=buyName.value.trim();if(!name){alert('商品名を入れてください');return}
-  state.buys.push({id:Date.now(),name,price:Number(buyPrice.value)||0,store:buyStore.value,priority:buyPriority.value.trim(),created:today()});
-  buyName.value='';buyPrice.value='';buyPriority.value='';save();
-});
-window.removeBuy=id=>{state.buys=state.buys.filter(x=>x.id!==id);save()};
-
-function render(){
-  const y=today().slice(0,4);
-  const yr=state.records.filter(x=>(x.done_date||x.created||'').startsWith(y));
-  const mr=state.records.filter(x=>(x.done_date||x.created||'').startsWith(ym()));
-  const yt=yr.reduce((s,x)=>s+(+x.value||0),0),mt=mr.reduce((s,x)=>s+(+x.value||0),0),ot=state.tasks.reduce((s,x)=>s+(+x.value||0),0);
-  yearTotal.innerHTML=new Intl.NumberFormat('ja-JP').format(yt)+' <small>円</small>';monthTotal.textContent=yen(mt);openTotal.textContent=yen(ot);
-
-  const ts=[...state.tasks].sort((a,b)=>dayDiff(a.deadline)-dayDiff(b.deadline)).slice(0,4);
-  taskList.innerHTML=ts.length?ts.map((x,i)=>`<div class="task"><div class="rank">${i+1}</div><div><div class="title">${esc(x.name)}</div><div class="meta">${deadlineText(x.deadline)}</div></div><div><div class="value">${x.value?'＋'+yen(x.value):'確認'}</div><button class="secondary" style="padding:6px 9px;min-height:32px;margin-top:5px;font-size:11px" onclick="finishTask(${x.id})">完了</button></div></div>`).join(''):'<div class="empty">今日は取りこぼしなし。</div>';
-
-  const dealHTML=d=>{const [lab,cls]=freshLabel(d);return `<div class="deal"><div class="deal-head"><div><div class="title">${esc(d.title)}<span class="tag ${cls}">${lab}</span></div><div class="meta">${esc(d.provider||'')}${d.end_date?'・期限 '+esc(d.end_date):''}</div>${d.conditions?`<div class="meta">条件：${esc(d.conditions)}</div>`:''}</div><div style="text-align:right"><div class="value">${d.value?yen(d.value):'—'}</div><button class="secondary" style="padding:6px 9px;min-height:32px;margin-top:5px;font-size:11px" onclick="removeDeal(${d.id})">削除</button></div></div></div>`};
-  dealList.innerHTML=state.deals.length?state.deals.map(dealHTML).join(''):'<div class="empty">まだ登録されていません。</div>';
-  const active=state.deals.filter(d=>!d.end_date||today()<=d.end_date).slice(0,3);
-  dealMini.innerHTML=active.length?active.map(dealHTML).join(''):'<div class="empty">期限が近い情報はありません。</div>';
-
-  buyList.innerHTML=state.buys.length?[...state.buys].reverse().map(x=>`<div class="rowitem"><div><div class="title">${esc(x.name)}</div><div class="meta">${x.store==='amazon'?'Amazon・Amazonカード':'Amazon以外・Recruit Card'}${x.priority?'・重視 '+esc(x.priority):''}</div></div><div style="text-align:right"><div class="value">${x.price?yen(x.price):'価格未入力'}</div><button class="secondary" style="padding:6px 9px;min-height:32px;margin-top:5px;font-size:11px" onclick="removeBuy(${x.id})">削除</button></div></div>`).join(''):'<div class="empty">購入候補はありません。</div>';
-
-  recordList.innerHTML=state.records.length?state.records.map(x=>`<div class="rowitem"><div><div class="title">${esc(x.name)}</div><div class="meta">${esc(x.done_date||x.created||'')}</div></div><div class="value good">＋${yen(x.value)}</div></div>`).join(''):'<div class="empty">まだ記録はありません。</div>';
-}
-const dealPrompt = `今日のお得情報を調べて。
-日本国内で今日現在、本当に使えるものだけを厳選して。
-対象はクーポン、無料券、ポイント還元、キャッシュバック、キャンペーン、公的優遇・節約制度。
-必ず最新の公式サイト・公式発表・官公庁など一次情報で、今日も開催中か確認して。
-利用期限、対象条件、還元上限、エントリー要否も確認して、期限切れや古い情報は除外して。
-不要な物を買わないと得できないキャンペーンは原則除外して。
-Amazonで買うならAmazonカード、それ以外はRecruit Cardを基本に、実質的に得か判断して。
-金額の大きいもの、簡単に使えるもの、期限が近いものを優先して教えて。`;
-
-todayDealBtn.addEventListener('click', async () => {
-  const status = document.getElementById('todayDealStatus');
-
-  status.textContent = '検索文を準備中…';
+function openChatGPT(){
+  const prompt = buildPrompt();
+  const status = $('#checkStatus');
   let copied = false;
 
-  try {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(dealPrompt);
-      copied = true;
-    }
-  } catch (e) {}
-
-  if (!copied) {
-    try {
-      const ta = document.createElement('textarea');
-      ta.value = dealPrompt;
-      ta.setAttribute('readonly', '');
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      copied = document.execCommand('copy');
-      ta.remove();
-    } catch (e) {}
-  }
-
-  const isiPhoneLike = /iPhone|iPad|iPod/i.test(navigator.userAgent)
-    || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
-  if (isiPhoneLike) {
-    status.textContent = copied
-      ? 'コピーしました。ChatGPTアプリを開きます。開いたら貼り付けて送信してください。'
-      : 'ChatGPTアプリを開きます。うまくコピーできない場合は「今日のお得情報調べて」と送ってください。';
-
-    let movedToApp = false;
-    const onVisibility = () => {
-      if (document.visibilityState === 'hidden') {
-        movedToApp = true;
-        clearTimeout(fallbackTimer);
-        document.removeEventListener('visibilitychange', onVisibility);
+  const copyPrompt = async()=>{
+    try{
+      if(navigator.clipboard && window.isSecureContext){
+        await navigator.clipboard.writeText(prompt); copied = true;
       }
-    };
-    document.addEventListener('visibilitychange', onVisibility);
-
-    const fallbackTimer = setTimeout(() => {
-      document.removeEventListener('visibilitychange', onVisibility);
-      if (!movedToApp && document.visibilityState === 'visible') {
-        window.location.href = 'https://chatgpt.com/';
-      }
-    }, 1400);
-
-    // ChatGPT iOSアプリがインストールされていればアプリ起動を試す
-    window.location.href = 'chatgpt://';
-  } else {
-    status.textContent = copied
-      ? 'コピーしました。ChatGPTを別タブ／別ウインドウで開きました。貼り付けて送信してください。'
-      : 'ChatGPTを別タブ／別ウインドウで開きました。うまくコピーできない場合は「今日のお得情報調べて」と送ってください。';
-
-    const chatWindow = window.open(
-      'https://chatgpt.com/',
-      '_blank',
-      'noopener,noreferrer,width=1200,height=900'
-    );
-
-    if (!chatWindow) {
-      status.textContent += ' ブラウザにブロックされた場合は、もう一度ボタンを押してください。';
+    }catch(e){}
+    if(!copied){
+      try{
+        const ta=document.createElement('textarea');
+        ta.value=prompt; ta.style.position='fixed'; ta.style.opacity='0';
+        document.body.appendChild(ta); ta.select();
+        copied=document.execCommand('copy'); ta.remove();
+      }catch(e){}
     }
+  };
+
+  const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+
+  copyPrompt().then(()=>{
+    status.textContent = copied
+      ? '検索文をコピーしました。ChatGPTで貼り付けて送信してください。'
+      : 'ChatGPTを開きます。「今日の無料クーポンとドラッグストア割引を調べて」と送ってください。';
+
+    if(isiOS){
+      let left=false;
+      const vh=()=>{ if(document.visibilityState==='hidden'){left=true;clearTimeout(timer);document.removeEventListener('visibilitychange',vh)}};
+      document.addEventListener('visibilitychange',vh);
+      const timer=setTimeout(()=>{
+        document.removeEventListener('visibilitychange',vh);
+        if(!left && document.visibilityState==='visible') window.location.href='https://chatgpt.com/';
+      },1400);
+      window.location.href='chatgpt://';
+    }else{
+      const w=window.open('https://chatgpt.com/','_blank','noopener,noreferrer');
+      if(!w) window.location.href='https://chatgpt.com/';
+    }
+  });
+}
+$('#checkBtn').addEventListener('click',openChatGPT);
+
+$('#pasteBtn').addEventListener('click', async()=>{
+  const s=$('#saveStatus');
+  try{
+    const t=await navigator.clipboard.readText();
+    if(!t.trim()){s.textContent='クリップボードが空です。';return}
+    $('#resultBox').value=t;
+    s.textContent='貼り付けました。内容を確認して保存してください。';
+  }catch(e){
+    $('#resultBox').focus();
+    s.textContent='自動貼り付けが許可されない場合は、ここを長押し／右クリックして貼り付けてください。';
   }
 });
 
+function fmtDate(d){
+  try{return new Intl.DateTimeFormat('ja-JP',{year:'numeric',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(d))}
+  catch(e){return d}
+}
+function render(){
+  const latest=$('#latestReport');
+  const hist=$('#history');
+  if(!data.reports.length){
+    latest.className='report-empty'; latest.textContent='まだ保存されていません。';
+    hist.innerHTML='<div class="report-empty">履歴はありません。</div>';
+    return;
+  }
+  latest.className='report';
+  latest.textContent=data.reports[0].text;
+  hist.innerHTML=data.reports.map((r,i)=>`
+    <div class="history-item">
+      <div class="date">${fmtDate(r.at)} ${i===0?'<span class="pill">最新</span>':''}</div>
+      <div class="report">${escapeHtml(r.text)}</div>
+    </div>`).join('');
+}
+function escapeHtml(s){
+  return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+$('#saveBtn').addEventListener('click',()=>{
+  const t=$('#resultBox').value.trim();
+  if(!t){$('#saveStatus').textContent='保存する結果がありません。';return}
+  data.reports.unshift({at:new Date().toISOString(),text:t});
+  data.reports=data.reports.slice(0,14);
+  save(data); render();
+  $('#saveStatus').textContent='今日の結果として保存しました。';
+});
 render();
 
-exportBtn.addEventListener('click',()=>{
-  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='TOKU_backup_'+today()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
-});
-const importDialog=document.getElementById('importDialog');
-importBtn.addEventListener('click',()=>{importText.value='';importDialog.showModal()});
-importCancel.addEventListener('click',()=>importDialog.close());
-importForm.addEventListener('submit',e=>{
-  e.preventDefault();
-  try{
-    const obj=JSON.parse(importText.value);
-    if(!obj || !Array.isArray(obj.tasks)||!Array.isArray(obj.records)||!Array.isArray(obj.deals)||!Array.isArray(obj.buys))throw new Error();
-    state=obj;importDialog.close();save();alert('復元しました');
-  }catch(e2){alert('バックアップ形式を確認してください');}
-});
-resetBtn.addEventListener('click',()=>{if(confirm('全データを初期化しますか？')){state=fresh();save()}});
-if('serviceWorker' in navigator && location.protocol.startsWith('http')){
-  navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
 }
-})();
 </script>
 </body>
 </html>

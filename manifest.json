@@ -1,20 +1,19 @@
 {
-  "name": "TOKU",
+  "name": "TOKU - クーポン・ドラッグストア・プライチ",
   "short_name": "TOKU",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f5f6f8",
-  "theme_color": "#111827",
-  "description": "得することだけ、シンプルに。",
+  "background_color": "#f5f5f3",
+  "theme_color": "#111111",
   "icons": [
     {
-      "src": "icon-180.png",
+      "src": "./icon-180.png",
       "sizes": "180x180",
       "type": "image/png"
     },
     {
-      "src": "icon-512.png",
+      "src": "./icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
