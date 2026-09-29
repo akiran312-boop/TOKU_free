@@ -79,6 +79,9 @@
     <p class="lead">今日、本当に使えるものだけをみれいに調べてもらう。無料クーポン、ドラッグストア割引、各コンビニのプライチを公式情報で確認。</p>
     <button id="checkBtn" class="primary">今日のお得・プライチを調べる</button>
     <div id="checkStatus" class="status"></div>
+    <div class="row" style="margin-top:8px">
+      <a class="btn secondary small" href="https://chatgpt.com/" target="_blank" rel="noopener">Web版ChatGPTを開く</a>
+    </div>
   </section>
 
   <section class="card">
@@ -135,7 +138,7 @@
 
   <div class="footer">
     無料版。TOKU自体は有料APIを使わず、最新情報の確認はChatGPTで行います。<br>
-    ChatGPTの回答をコピーし、TOKUで1タップ取り込み。保存内容はこの端末のブラウザ内に保存されます。
+    iPhoneではChatGPTアプリを1回だけ起動。ChatGPTの回答をコピーし、TOKUで1タップ取り込み。保存内容はこの端末のブラウザ内に保存されます。
   </div>
 </div>
 
@@ -272,13 +275,8 @@ function openChatGPT(){
       : 'ChatGPTを開きます。「今日の無料クーポンとドラッグストア割引を調べて」と送ってください。';
 
     if(isiOS){
-      let left=false;
-      const vh=()=>{ if(document.visibilityState==='hidden'){left=true;clearTimeout(timer);document.removeEventListener('visibilitychange',vh)}};
-      document.addEventListener('visibilitychange',vh);
-      const timer=setTimeout(()=>{
-        document.removeEventListener('visibilitychange',vh);
-        if(!left && document.visibilityState==='visible') window.location.href='https://chatgpt.com/';
-      },1400);
+      // iPhone/iPadではChatGPTアプリを1回だけ開く。
+      // Web版への自動フォールバックは行わない（重複起動防止）。
       window.location.href='chatgpt://';
     }else{
       const w=window.open('https://chatgpt.com/','_blank','noopener,noreferrer');
