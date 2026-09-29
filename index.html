@@ -76,7 +76,7 @@
 
   <section class="card hero">
     <h2>今日チェック</h2>
-    <p class="lead">今日、本当に使えるものだけをみれいに調べてもらう。無料クーポン、ドラッグストア割引、各コンビニのプライチを公式情報で確認。</p>
+    <p class="lead">今日使える無料クーポン・ドラッグストア割引・コンビニのプライチだけを公式情報で確認。初回限定は除外。</p>
     <button id="checkBtn" class="primary">今日のお得・プライチを調べる</button>
     <div id="checkStatus" class="status"></div>
     <div class="row" style="margin-top:8px">
@@ -207,6 +207,8 @@ ${convenience}
 ・調査日現在も有効か、公式サイト・公式キャンペーンページ・公式ニュースリリース・公式アプリ案内など一次情報で必ず確認。
 ・まとめサイト、SNS、古いブログだけを根拠にしない。
 ・終了済みは除外。
+・初回限定、新規会員限定、新規登録限定、初回アプリDL限定、初回利用限定は除外。
+・新規カード発行や新規決済サービス登録が必要なものも除外。
 ・開始前の予告は今日使える一覧には混ぜない。
 ・本日が最終日なら目立つように書く。
 ・公式確認できないものは載せない。
@@ -248,12 +250,44 @@ JSONのキー名は変更しないでください。文字列内に改行を入�
 function openChatGPT(){
   const prompt = buildPrompt();
   const status = $('#checkStatus');
-  let copied = false;
+  const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
 
-  const copyPrompt = async()=>{
+  // iPhoneでは、ユーザー操作中に同期コピーしてすぐアプリを開く。
+  // navigator.clipboardの完了待ちをしないので体感を速くする。
+  if(isiOS){
+    let copied=false;
+    try{
+      const ta=document.createElement('textarea');
+      ta.value=prompt;
+      ta.setAttribute('readonly','');
+      ta.style.position='fixed';
+      ta.style.left='-9999px';
+      ta.style.top='0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      ta.setSelectionRange(0, ta.value.length);
+      copied=document.execCommand('copy');
+      ta.remove();
+    }catch(e){}
+
+    if(!copied && navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(prompt).catch(()=>{});
+    }
+
+    status.textContent='検索文をコピーしました。ChatGPTを開きます。';
+    window.location.href='chatgpt://';
+    return;
+  }
+
+  // PCはクリップボードへコピー後、別タブで開く。
+  (async()=>{
+    let copied=false;
     try{
       if(navigator.clipboard && window.isSecureContext){
-        await navigator.clipboard.writeText(prompt); copied = true;
+        await navigator.clipboard.writeText(prompt);
+        copied=true;
       }
     }catch(e){}
     if(!copied){
@@ -264,25 +298,12 @@ function openChatGPT(){
         copied=document.execCommand('copy'); ta.remove();
       }catch(e){}
     }
-  };
-
-  const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-    (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
-
-  copyPrompt().then(()=>{
-    status.textContent = copied
+    status.textContent=copied
       ? '検索文をコピーしました。ChatGPTで貼り付けて送信してください。'
-      : 'ChatGPTを開きます。「今日の無料クーポンとドラッグストア割引を調べて」と送ってください。';
-
-    if(isiOS){
-      // iPhone/iPadではChatGPTアプリを1回だけ開く。
-      // Web版への自動フォールバックは行わない（重複起動防止）。
-      window.location.href='chatgpt://';
-    }else{
-      const w=window.open('https://chatgpt.com/','_blank','noopener,noreferrer');
-      if(!w) window.location.href='https://chatgpt.com/';
-    }
-  });
+      : 'ChatGPTを開きます。';
+    const w=window.open('https://chatgpt.com/','_blank','noopener,noreferrer');
+    if(!w) window.location.href='https://chatgpt.com/';
+  })();
 }
 $('#checkBtn').addEventListener('click',openChatGPT);
 
