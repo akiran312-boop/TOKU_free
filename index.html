@@ -80,10 +80,13 @@ dialog{border:0;border-radius:20px;padding:0;width:min(92vw,560px);box-shadow:0 
     <div class="card">
       <div class="label">みれいに最新情報を聞く</div>
       <div class="hint" style="margin-top:10px">
-        無料版では自動検索はしません。ChatGPTで「今日のお得情報調べて」と聞けば、みれいがその時点の公式情報を確認します。
+        下のボタンを押すだけ。検索文を自動コピーしてChatGPTを開きます。
       </div>
+      <button id="todayDealBtn" style="width:100%;margin-top:10px;font-size:16px;padding:14px 16px">
+        今日のお得情報を調べる
+      </button>
+      <div id="todayDealStatus" class="meta" style="margin-top:8px"></div>
       <div class="actions" style="margin-top:10px">
-        <a class="linkbtn" href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPTを開く</a>
         <button class="secondary" id="addDealBtn">結果をTOKUに追加</button>
       </div>
     </div>
@@ -269,6 +272,50 @@ function render(){
 
   recordList.innerHTML=state.records.length?state.records.map(x=>`<div class="rowitem"><div><div class="title">${esc(x.name)}</div><div class="meta">${esc(x.done_date||x.created||'')}</div></div><div class="value good">＋${yen(x.value)}</div></div>`).join(''):'<div class="empty">まだ記録はありません。</div>';
 }
+const dealPrompt = `今日のお得情報を調べて。
+日本国内で今日現在、本当に使えるものだけを厳選して。
+対象はクーポン、無料券、ポイント還元、キャッシュバック、キャンペーン、公的優遇・節約制度。
+必ず最新の公式サイト・公式発表・官公庁など一次情報で、今日も開催中か確認して。
+利用期限、対象条件、還元上限、エントリー要否も確認して、期限切れや古い情報は除外して。
+不要な物を買わないと得できないキャンペーンは原則除外して。
+Amazonで買うならAmazonカード、それ以外はRecruit Cardを基本に、実質的に得か判断して。
+金額の大きいもの、簡単に使えるもの、期限が近いものを優先して教えて。`;
+
+todayDealBtn.addEventListener('click', async () => {
+  const status = document.getElementById('todayDealStatus');
+  status.textContent = '検索文を準備中…';
+  let copied = false;
+
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(dealPrompt);
+      copied = true;
+    }
+  } catch (e) {}
+
+  if (!copied) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = dealPrompt;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      copied = document.execCommand('copy');
+      ta.remove();
+    } catch (e) {}
+  }
+
+  status.textContent = copied
+    ? 'コピーしました。ChatGPTを開きます。貼り付けて送信してください。'
+    : 'ChatGPTを開きます。うまくコピーできない場合は「今日のお得情報調べて」と送ってください。';
+
+  setTimeout(() => {
+    window.location.href = 'https://chatgpt.com/';
+  }, 350);
+});
+
 render();
 
 exportBtn.addEventListener('click',()=>{
