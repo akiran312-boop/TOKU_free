@@ -1,4 +1,4 @@
-const CACHE='toku-free-v1';
+const CACHE='toku-free-v1.3';
 const SHELL=['./','./index.html','./manifest.json','./icon-180.png','./icon-512.png'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)));
